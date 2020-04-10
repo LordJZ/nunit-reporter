@@ -91,6 +91,7 @@ export class TestResult {
 }
 
 function getTestCases(testsuite: any): any[] {
+  testsuite = testsuite.results || testsuite;
   let testCases = []
 
   if ('test-suite' in testsuite) {
@@ -120,16 +121,20 @@ export async function parseNunit(nunitReport: string): Promise<TestResult> {
     explicitArray: false
   })
 
-  const testRun = nunitResults['test-run']
+  const testRun = nunitResults['test-run'] || nunitResults['test-results']
 
   const testCases = getTestCases(testRun)
-  const failedCases = testCases.filter(tc => tc.result === 'Failed')
+  const failedCases = testCases.filter(tc => tc.result === 'Failed' || tc.result === 'Failure')
 
   const annotations = failedCases.map(testCaseAnnotation)
+  
+  const num = key => +testRun(key) || 0;
 
   return new TestResult(
-    parseInt(testRun.passed),
-    parseInt(testRun.failed),
+    'passed' in testRun ? num('passed') :
+    ['errors', 'failures', 'not-run', 'inconclusive', 'ignored', 'skipped', 'invalid']
+      .reduce((a, key) => a - num(key), testRun.total),
+    'failed' in testRun ? num('failed') : (num('errors') + num('failures')),
     annotations
   )
 }
