@@ -128,7 +128,16 @@ export async function parseNunit(nunitReport: string): Promise<TestResult> {
   const testCases = getTestCases(testRun)
   const failedCases = testCases.filter(tc => tc.result === 'Failed')
 
-  const annotations = failedCases.map(testCaseAnnotation)
+  const annotationKeys = new Set<string>()
+  const annotations = failedCases.map(testCaseAnnotation).filter(ann => {
+    const key = `${ann.path} ${ann.start_line}`
+    if (annotationKeys.has(key)) {
+      return false
+    }
+
+    annotationKeys.add(key)
+    return true
+  })
 
   return new TestResult(
     parseInt(testRun.passed),

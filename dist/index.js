@@ -2317,7 +2317,15 @@ async function parseNunit(nunitReport) {
     const testRun = nunitResults['test-run'];
     const testCases = getTestCases(testRun);
     const failedCases = testCases.filter(tc => tc.result === 'Failed');
-    const annotations = failedCases.map(testCaseAnnotation);
+    const annotationKeys = new Set();
+    const annotations = failedCases.map(testCaseAnnotation).filter(ann => {
+        const key = `${ann.path} ${ann.start_line}`;
+        if (annotationKeys.has(key)) {
+            return false;
+        }
+        annotationKeys.add(key);
+        return true;
+    });
     return new TestResult(parseInt(testRun.passed), parseInt(testRun.failed), annotations);
 }
 exports.parseNunit = parseNunit;
