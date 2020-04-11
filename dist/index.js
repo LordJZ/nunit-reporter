@@ -5093,7 +5093,7 @@ async function run() {
                 details = newDetails;
             }
         }
-        console.log('sending request...');
+        console.log(`sending request for sha ${github_1.context.sha} ...`);
         const result = await octokit.checks.create({
             head_sha: github_1.context.sha,
             name: 'Tests Results',

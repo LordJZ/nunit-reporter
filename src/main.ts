@@ -40,7 +40,7 @@ async function run(): Promise<void> {
       }
     }
 
-    console.log('sending request...')
+    console.log(`sending request for sha ${context.sha} ...`)
     const result = await octokit.checks.create({
       head_sha: context.sha,
       name: 'Tests Results',
