@@ -5095,14 +5095,14 @@ async function run() {
         }
         const pr = github_1.context.payload.pull_request;
         await octokit.checks.create({
-            head_sha: pr && pr['head'] && pr['head'].sha || github_1.context.sha,
-            name: 'Tests Results',
+            head_sha: (pr && pr['head'] && pr['head'].sha) || github_1.context.sha,
+            name: 'Test Report',
             owner: github_1.context.repo.owner,
             repo: github_1.context.repo.repo,
             status: 'completed',
             conclusion: results.failed > 0 ? 'failure' : 'success',
             output: {
-                title: 'Test Results',
+                title: summary,
                 summary,
                 annotations: results.annotations.slice(0, numFailures),
                 text: details
