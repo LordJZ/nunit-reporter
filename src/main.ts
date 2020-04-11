@@ -40,8 +40,8 @@ async function run(): Promise<void> {
       }
     }
 
-    console.log(`sending request for sha ${context.sha} ...`)
-    const result = await octokit.checks.create({
+    console.dir(context)
+    await octokit.checks.create({
       head_sha: context.sha,
       name: 'Tests Results',
       owner: context.repo.owner,
@@ -55,8 +55,6 @@ async function run(): Promise<void> {
         text: details
       }
     })
-    console.dir(result.status)
-    console.dir(result.data)
   } catch (error) {
     setFailed(error.message)
   }

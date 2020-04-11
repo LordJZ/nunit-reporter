@@ -5093,8 +5093,8 @@ async function run() {
                 details = newDetails;
             }
         }
-        console.log(`sending request for sha ${github_1.context.sha} ...`);
-        const result = await octokit.checks.create({
+        console.dir(github_1.context);
+        await octokit.checks.create({
             head_sha: github_1.context.sha,
             name: 'Tests Results',
             owner: github_1.context.repo.owner,
@@ -5108,8 +5108,6 @@ async function run() {
                 text: details
             }
         });
-        console.dir(result.status);
-        console.dir(result.data);
     }
     catch (error) {
         core_1.setFailed(error.message);
