@@ -5100,7 +5100,7 @@ async function run() {
             owner: github_1.context.repo.owner,
             repo: github_1.context.repo.repo,
             status: 'completed',
-            conclusion: results.failed > 0 ? 'failure' : 'success',
+            conclusion: results.failed > 0 || results.passed == 0 ? 'failure' : 'success',
             output: {
                 title: summary,
                 summary,
