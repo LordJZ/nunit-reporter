@@ -5085,6 +5085,7 @@ async function run() {
                 details = newDetails;
             }
         }
+        console.log('sending request...');
         await octokit.checks.create({
             head_sha: github_1.context.sha,
             name: 'Tests Results',
@@ -5103,6 +5104,7 @@ async function run() {
     catch (error) {
         core_1.setFailed(error.message);
     }
+    console.log('ok!');
 }
 run();
 

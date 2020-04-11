@@ -40,6 +40,7 @@ async function run(): Promise<void> {
       }
     }
 
+    console.log('sending request...')
     await octokit.checks.create({
       head_sha: context.sha,
       name: 'Tests Results',
@@ -57,6 +58,8 @@ async function run(): Promise<void> {
   } catch (error) {
     setFailed(error.message)
   }
+
+  console.log('ok!')
 }
 
 run()
