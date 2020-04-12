@@ -12,6 +12,9 @@ inputs:
     description: 'max number of failed tests to include'
     require: true
     default: 30
+  sha:
+    description: 'head_sha field for check run, defaults to PR head_sha or context.sha'
+    default: ''
 runs:
   using: 'node12'
   main: 'dist/index.js'
